@@ -39,15 +39,6 @@ export default function InmueblesPage() {
     return result
   }, [activeFilter, searchQuery])
 
-  // Stats
-  const stats = {
-    total: mockProperties.length,
-    disponibles: mockProperties.filter(p => p.estado === 'disponible').length,
-    alquilados: mockProperties.filter(p => p.estado === 'alquilado').length,
-    rentabilidadMedia: (mockProperties.reduce((acc, p) => acc + (p.rentabilidadEstimada || 0), 0) / 
-      mockProperties.filter(p => p.rentabilidadEstimada).length).toFixed(1)
-  }
-
   return (
     <AppShell>
       {/* Page Header */}
@@ -62,26 +53,6 @@ export default function InmueblesPage() {
           <Plus className="h-4 w-4 mr-2" />
           Añadir inmueble
         </Button>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-card rounded-lg border p-4">
-          <p className="text-sm text-muted-foreground">Total inmuebles</p>
-          <p className="text-2xl font-bold text-foreground">{stats.total}</p>
-        </div>
-        <div className="bg-card rounded-lg border p-4">
-          <p className="text-sm text-muted-foreground">Disponibles</p>
-          <p className="text-2xl font-bold text-emerald-600">{stats.disponibles}</p>
-        </div>
-        <div className="bg-card rounded-lg border p-4">
-          <p className="text-sm text-muted-foreground">Alquilados</p>
-          <p className="text-2xl font-bold text-blue-600">{stats.alquilados}</p>
-        </div>
-        <div className="bg-card rounded-lg border p-4">
-          <p className="text-sm text-muted-foreground">Rentabilidad media</p>
-          <p className="text-2xl font-bold text-accent">{stats.rentabilidadMedia}%</p>
-        </div>
       </div>
 
       {/* Filters Bar */}
@@ -101,14 +72,14 @@ export default function InmueblesPage() {
           value={activeFilter} 
           onValueChange={(v) => setActiveFilter(v as FilterTab)}
         >
-          <TabsList className="h-auto bg-muted/50 p-1 flex-wrap">
-            <TabsTrigger value="todos" className="text-xs">Todos</TabsTrigger>
-            <TabsTrigger value="disponible" className="text-xs">Disponibles</TabsTrigger>
-            <TabsTrigger value="alquilado" className="text-xs">Alquilados</TabsTrigger>
-            <TabsTrigger value="reservado" className="text-xs">Reservados</TabsTrigger>
-            <TabsTrigger value="venta" className="text-xs">En venta</TabsTrigger>
-            <TabsTrigger value="alquiler" className="text-xs">En alquiler</TabsTrigger>
-            <TabsTrigger value="turistico" className="text-xs">Turístico</TabsTrigger>
+          <TabsList className="h-auto bg-muted/50 p-1 flex-nowrap overflow-x-auto no-scrollbar">
+            <TabsTrigger value="todos" className="text-xs shrink-0">Todos</TabsTrigger>
+            <TabsTrigger value="disponible" className="text-xs shrink-0">Disponibles</TabsTrigger>
+            <TabsTrigger value="alquilado" className="text-xs shrink-0">Alquilados</TabsTrigger>
+            <TabsTrigger value="reservado" className="text-xs shrink-0">Reservados</TabsTrigger>
+            <TabsTrigger value="venta" className="text-xs shrink-0">En venta</TabsTrigger>
+            <TabsTrigger value="alquiler" className="text-xs shrink-0">En alquiler</TabsTrigger>
+            <TabsTrigger value="turistico" className="text-xs shrink-0">Turístico</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

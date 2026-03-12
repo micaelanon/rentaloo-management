@@ -31,9 +31,9 @@ export function RecentCases() {
             <Link
               key={caseItem.id}
               href={`/expedientes/${caseItem.id}`}
-              className="flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors"
+              className="flex items-center gap-3 md:gap-4 p-3 md:p-4 hover:bg-muted/50 transition-colors"
             >
-              <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+              <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center shrink-0 hidden sm:flex">
                 <Building2 className="h-5 w-5 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">
@@ -49,7 +49,7 @@ export function RecentCases() {
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
                 <CaseStatusBadge status={caseItem.estado} />
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground hidden sm:block">
                   {formatDistanceToNow(new Date(caseItem.updatedAt), { 
                     addSuffix: true, 
                     locale: es 

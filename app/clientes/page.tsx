@@ -69,12 +69,12 @@ export default function ClientesPage() {
           value={activeFilter} 
           onValueChange={(v) => setActiveFilter(v as FilterTab)}
         >
-          <TabsList className="h-auto bg-muted/50 p-1">
-            <TabsTrigger value="todos" className="text-xs">Todos</TabsTrigger>
-            <TabsTrigger value="propietario" className="text-xs">Propietarios</TabsTrigger>
-            <TabsTrigger value="inquilino" className="text-xs">Inquilinos</TabsTrigger>
-            <TabsTrigger value="comprador" className="text-xs">Compradores</TabsTrigger>
-            <TabsTrigger value="vendedor" className="text-xs">Vendedores</TabsTrigger>
+          <TabsList className="h-auto bg-muted/50 p-1 flex-nowrap overflow-x-auto no-scrollbar">
+            <TabsTrigger value="todos" className="text-xs shrink-0">Todos</TabsTrigger>
+            <TabsTrigger value="propietario" className="text-xs shrink-0">Propietarios</TabsTrigger>
+            <TabsTrigger value="inquilino" className="text-xs shrink-0">Inquilinos</TabsTrigger>
+            <TabsTrigger value="comprador" className="text-xs shrink-0">Compradores</TabsTrigger>
+            <TabsTrigger value="vendedor" className="text-xs shrink-0">Vendedores</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

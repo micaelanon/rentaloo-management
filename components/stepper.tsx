@@ -16,9 +16,51 @@ interface StepperProps {
 }
 
 export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
+  const current = steps[currentStep - 1]
+
   return (
     <nav aria-label="Progreso" className="w-full">
-      <ol className="flex items-center justify-between">
+      {/* Mobile: compact indicator */}
+      <div className="md:hidden">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-foreground">
+            {current?.label}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            Paso {currentStep} de {steps.length}
+          </span>
+        </div>
+        <div className="flex gap-1">
+          {steps.map((step) => {
+            const isCompleted = step.id < currentStep
+            const isCurrent = step.id === currentStep
+            const isClickable = onStepClick && (isCompleted || isCurrent)
+
+            return (
+              <button
+                key={step.id}
+                type="button"
+                onClick={() => isClickable && onStepClick?.(step.id)}
+                disabled={!isClickable}
+                className={cn(
+                  'h-1.5 flex-1 rounded-full transition-all',
+                  isCompleted && 'bg-accent',
+                  isCurrent && 'bg-primary',
+                  !isCompleted && !isCurrent && 'bg-border',
+                  isClickable && 'cursor-pointer'
+                )}
+                aria-label={`Paso ${step.id}: ${step.label}`}
+              />
+            )
+          })}
+        </div>
+        {current?.description && (
+          <p className="text-xs text-muted-foreground mt-1.5">{current.description}</p>
+        )}
+      </div>
+
+      {/* Desktop: full horizontal stepper */}
+      <ol className="hidden md:flex items-center justify-between">
         {steps.map((step, index) => {
           const isCompleted = step.id < currentStep
           const isCurrent = step.id === currentStep
@@ -66,7 +108,7 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
                     {step.label}
                   </span>
                   {step.description && (
-                    <span className="text-[10px] text-muted-foreground hidden sm:block">
+                    <span className="text-[10px] text-muted-foreground hidden lg:block">
                       {step.description}
                     </span>
                   )}

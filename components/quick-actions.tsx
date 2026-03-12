@@ -48,22 +48,22 @@ export function QuickActions() {
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold">Acciones rápidas</CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-3">
+      <CardContent className="grid gap-2">
         {actions.map((action) => (
           <Link
             key={action.label}
             href={action.href}
             className={cn(
-              'flex items-center gap-4 p-4 rounded-lg transition-all group',
+              'flex items-center gap-3 p-3 rounded-lg transition-all group',
               action.color
             )}
           >
-            <div className="h-10 w-10 rounded-lg bg-background/80 flex items-center justify-center shrink-0">
-              <action.icon className="h-5 w-5" />
+            <div className="h-9 w-9 rounded-lg bg-background/80 flex items-center justify-center shrink-0">
+              <action.icon className="h-4 w-4" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-sm">{action.label}</p>
-              <p className="text-xs opacity-70">{action.description}</p>
+              <p className="text-xs opacity-70 hidden sm:block">{action.description}</p>
             </div>
             <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>

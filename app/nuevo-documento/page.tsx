@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import {
   Select,
   SelectContent,
@@ -34,7 +35,8 @@ import {
   Users, 
   Euro, 
   Calendar,
-  Check
+  Check,
+  Eye
 } from 'lucide-react'
 
 const steps = [
@@ -54,6 +56,7 @@ function NuevoDocumentoContent() {
   const [currentStep, setCurrentStep] = useState(1)
   const [documentType, setDocumentType] = useState<DocumentType>(initialType || 'alquiler_larga_duracion')
   const [referencia] = useState(generateNewReference())
+  const [previewOpen, setPreviewOpen] = useState(false)
   
   const [documentData, setDocumentData] = useState<DocumentData>({
     arrendador: { nombre: '', apellidos: '', dni: '', email: '', telefono: '', direccion: '' },
@@ -757,18 +760,18 @@ function NuevoDocumentoContent() {
   return (
     <AppShell>
       {/* Header with reference */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Badge variant="outline" className="font-mono">{referencia}</Badge>
-            <Badge className="bg-amber-100 text-amber-800 border-amber-200">Borrador</Badge>
+            <Badge variant="outline" className="font-mono text-xs">{referencia}</Badge>
+            <Badge className="bg-amber-100 text-amber-800 border-amber-200 text-xs">Borrador</Badge>
           </div>
-          <h2 className="text-2xl font-bold text-foreground">Nuevo documento</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground">Nuevo documento</h2>
         </div>
       </div>
 
       {/* Stepper */}
-      <div className="mb-8 p-4 bg-card rounded-lg border">
+      <div className="mb-6 md:mb-8 p-3 md:p-4 bg-card rounded-lg border">
         <Stepper 
           steps={steps} 
           currentStep={currentStep}
@@ -777,9 +780,9 @@ function NuevoDocumentoContent() {
       </div>
 
       {/* Main content: Form + Preview */}
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-4 md:gap-6">
         {/* Form Panel */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <Card>
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2">
@@ -822,11 +825,11 @@ function NuevoDocumentoContent() {
           </div>
         </div>
 
-        {/* Document Preview Panel */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        {/* Document Preview Panel — Desktop only */}
+        <div className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
           <div className="mb-3 flex items-center justify-between">
             <h3 className="font-semibold text-foreground">Vista previa del documento</h3>
-            <Badge variant="secondary">Actualización en tiempo real</Badge>
+            <Badge variant="secondary" className="text-xs">Tiempo real</Badge>
           </div>
           <div className="max-h-[calc(100vh-200px)] overflow-y-auto rounded-lg">
             <DocumentPreview 
@@ -837,6 +840,34 @@ function NuevoDocumentoContent() {
           </div>
         </div>
       </div>
+
+      {/* Mobile: floating preview button */}
+      <div className="fixed bottom-6 right-6 lg:hidden z-40">
+        <Button 
+          onClick={() => setPreviewOpen(true)}
+          className="bg-primary hover:bg-primary/90 shadow-lg rounded-full h-14 px-5 gap-2"
+        >
+          <Eye className="h-5 w-5" />
+          <span className="text-sm font-medium">Ver documento</span>
+        </Button>
+      </div>
+
+      {/* Mobile: preview sheet */}
+      <Sheet open={previewOpen} onOpenChange={setPreviewOpen}>
+        <SheetContent side="bottom" className="h-[90vh] p-0 overflow-hidden">
+          <SheetHeader className="px-4 py-3 border-b sticky top-0 bg-background z-10">
+            <SheetTitle className="text-base">Vista previa del documento</SheetTitle>
+          </SheetHeader>
+          <div className="overflow-y-auto h-full pb-16 px-2">
+            <DocumentPreview 
+              documentType={documentType}
+              documentData={documentData}
+              referencia={referencia}
+              className="shadow-none border-0"
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
     </AppShell>
   )
 }

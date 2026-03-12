@@ -415,7 +415,7 @@ export function DocumentPreview({
 
   return (
     <div className={cn(
-      'bg-white rounded-lg shadow-lg border p-8 md:p-12 min-h-[600px]',
+      'bg-white rounded-lg shadow-lg border p-5 md:p-8 lg:p-12 min-h-[600px]',
       'font-serif text-foreground',
       className
     )}>
