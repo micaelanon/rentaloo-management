@@ -1,0 +1,6 @@
+{
+  "public": true,
+  "buildCommand": "pnpm run build",
+  "devCommand": "pnpm run dev",
+  "installCommand": "pnpm install"
+}
