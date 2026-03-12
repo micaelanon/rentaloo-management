@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { RentalooLogo } from './rentaloo-logo'
+import { Sheet, SheetContent } from '@/components/ui/sheet'
 import {
   LayoutDashboard,
   FolderOpen,
@@ -53,14 +54,18 @@ const navigationItems = [
   },
 ]
 
-export function AppSidebar() {
+interface SidebarContentProps {
+  onNavigate?: () => void
+}
+
+function SidebarContent({ onNavigate }: SidebarContentProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-sidebar text-sidebar-foreground flex flex-col">
+    <>
       {/* Logo */}
       <div className="flex h-16 items-center px-6 border-b border-sidebar-border">
-        <Link href="/">
+        <Link href="/" onClick={onNavigate}>
           <RentalooLogo inverted className="hover:opacity-90 transition-opacity" />
         </Link>
       </div>
@@ -75,6 +80,7 @@ export function AppSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group',
                 isActive 
@@ -107,6 +113,32 @@ export function AppSidebar() {
           </div>
         </div>
       </div>
+    </>
+  )
+}
+
+interface AppSidebarProps {
+  mobile?: boolean
+  isOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export function AppSidebar({ mobile, isOpen, onOpenChange }: AppSidebarProps) {
+  if (mobile) {
+    return (
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+        <SheetContent side="left" className="w-64 p-0 bg-sidebar text-sidebar-foreground">
+          <div className="flex flex-col h-full">
+            <SidebarContent onNavigate={() => onOpenChange?.(false)} />
+          </div>
+        </SheetContent>
+      </Sheet>
+    )
+  }
+
+  return (
+    <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-sidebar text-sidebar-foreground flex flex-col">
+      <SidebarContent />
     </aside>
   )
 }

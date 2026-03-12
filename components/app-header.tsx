@@ -18,7 +18,8 @@ import {
   Bell, 
   Settings,
   LogOut,
-  User
+  User,
+  Menu
 } from 'lucide-react'
 
 const pageTitles: Record<string, string> = {
@@ -31,21 +32,37 @@ const pageTitles: Record<string, string> = {
   '/ajustes': 'Ajustes',
 }
 
-export function AppHeader() {
+interface AppHeaderProps {
+  sidebarOpen?: boolean
+  onSidebarToggle?: () => void
+}
+
+export function AppHeader({ sidebarOpen, onSidebarToggle }: AppHeaderProps) {
   const pathname = usePathname()
   const title = pageTitles[pathname] || 'Rentaloo Docs'
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b border-border">
-      <div className="flex h-full items-center justify-between px-6">
-        {/* Left side - Title */}
-        <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold text-foreground">
+      <div className="flex h-full items-center justify-between px-4 md:px-6">
+        {/* Left side - Menu + Title */}
+        <div className="flex items-center gap-3 md:gap-4">
+          {/* Mobile hamburger */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden"
+            onClick={onSidebarToggle}
+          >
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Menú</span>
+          </Button>
+          
+          <h1 className="text-lg md:text-xl font-semibold text-foreground truncate">
             {title}
           </h1>
         </div>
 
-        {/* Center - Search */}
+        {/* Center - Search (hidden on mobile) */}
         <div className="hidden md:flex flex-1 max-w-md mx-8">
           <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -59,10 +76,11 @@ export function AppHeader() {
 
         {/* Right side - Actions */}
         <div className="flex items-center gap-2">
-          <Button asChild className="hidden sm:flex bg-accent hover:bg-accent/90 text-accent-foreground">
+          <Button asChild className="hidden sm:flex bg-accent hover:bg-accent/90 text-accent-foreground text-sm">
             <Link href="/nuevo-documento">
               <FilePlus className="h-4 w-4 mr-2" />
-              Nuevo documento
+              <span className="hidden md:inline">Nuevo documento</span>
+              <span className="md:hidden">Nuevo</span>
             </Link>
           </Button>
 
